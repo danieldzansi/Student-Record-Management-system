@@ -2,23 +2,25 @@
 <section class="card" id="add-section">
     <h3>Add Student</h3>
     <form id="student-form">
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="email" id="email" placeholder="Email Address" required>
-        <input type="text" id="course" placeholder="Course/Program" required>
-        <input type="text" id="studentId" placeholder="Student ID" required>
+        <input type="text" id="name" placeholder="Full Name" aria-label="Name" required>
+        <input type="email" id="email" placeholder="Email Address" aria-label="Email Address" required>
+        <input type="text" id="course" placeholder="Course/Program" aria-label="Course/Program" required>
+        <input type="text" id="studentId" placeholder="Student ID" aria-label="Student ID" required>
         <button type="submit">Add Student</button>
     </form>
     <h4 style="margin-top:2rem;">Current Students</h4>
-    <table class="students-table" id="add-students-table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Course</th>
-                <th>ID</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div class="table-wrap">
+      <table class="students-table" id="add-students-table">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Course</th>
+                  <th>ID</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody></tbody>
+      </table>
+    </div>
 </section>
