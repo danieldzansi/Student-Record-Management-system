@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Student Records Dashboard</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<nav class="navbar">
+		<div class="nav-title">Student Records</div>
+		<ul class="nav-links">
+			<li><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+			<li><a href="#" onclick="showSection('students')">Students</a></li>
+		</ul>
+	</nav>
+	<main>
+		<section class="card" id="dashboard-section">
+			<h2>Student Records Management System</h2>
+			
+			<div class="welcome-message">
+				<p>Welcome to your comprehensive student management dashboard</p>
+				<p>Efficiently manage student records, track academic performance, and maintain organized educational data.</p>
+			</div>
+			
+			<div class="dashboard-actions">
+				<button onclick="showSection('add')">Add Student Record</button>
+				<button onclick="showSection('students')"> View Student Records</button>
+				<button onclick="showSection('search')">Search Student Record</button>
+			</div>
+			
+			<div class="quick-stats">
+				<div class="stat-card">
+					<span class="stat-number" id="total-students">-</span>
+					<span class="stat-label">Total Students</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-number" id="active-students">-</span>
+					<span class="stat-label">Active Student</span>
+				</div>
+			</div>
+		</section>
+
+		<section class="card" id="add-section" style="display:none;"></section>
+
+		<section class="card" id="search-section" style="display:none;">
+			<h3>Search Student</h3>
+			<input type="text" id="searchId" placeholder="Enter Student ID">
+			<button onclick="searchStudent()">Search</button>
+			<div class="table-wrap">
+			<table class="students-table" id="search-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Course</th>
+						<th>ID</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			</div>
+		</section>
+
+		<section class="card" id="students-section" style="display:none;">
+			<h3>All Students</h3>
+			<div class="table-wrap">
+			<table class="students-table" id="students-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Course</th>
+						<th>ID</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			</div>
+		</section>
+	</main>
+	
+	<script>
+		// Dynamically load add-student.html into #add-section
+		function loadAddStudentSection() {
+			fetch('add-student.html')
+				.then(res => res.text())
+				.then(html => {
+					document.getElementById('add-section').innerHTML = html;
+					// Bind the form after loading
+					if (window.bindStudentForm) {
+						window.bindStudentForm();
+					}
+				})
+				.catch(error => {
+					console.error('Error loading add-student section:', error);
+					document.getElementById('add-section').innerHTML = '<p>Error loading form. Please refresh the page.</p>';
+				});
+		}
+		
+		// Load on page load
+		window.addEventListener('DOMContentLoaded', loadAddStudentSection);
+	</script>
+	<script src="index.js"></script>
+</body>
+</html>
