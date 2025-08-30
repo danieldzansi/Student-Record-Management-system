@@ -228,15 +228,18 @@ window.updateStudent = async function(id) {
       return;
     }
     
-    // Prompt for new values
-    const newName = prompt('Enter new name:', currentStudent.name);
-    if (!newName) return;
+  // Prompt for new values (including ID)
+  const newName = prompt('Enter new name:', currentStudent.name);
+  if (newName === null) return; // cancel
     
-    const newEmail = prompt('Enter new email:', currentStudent.email);
-    if (!newEmail) return;
+  const newEmail = prompt('Enter new email:', currentStudent.email);
+  if (newEmail === null) return;
     
-    const newCourse = prompt('Enter new course:', currentStudent.course);
-    if (!newCourse) return;
+  const newCourse = prompt('Enter new course:', currentStudent.course);
+  if (newCourse === null) return;
+
+  const newId = prompt('Enter new student ID:', currentStudent.student_id);
+  if (newId === null) return;
     
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -245,19 +248,39 @@ window.updateStudent = async function(id) {
       return;
     }
     
+    const trimmedId = newId.trim();
+    if (!trimmedId) {
+      showError('Student ID cannot be empty');
+      return;
+    }
+    
+    // If ID changed, ensure it's unique
+    if (trimmedId !== id) {
+      const { data: existing } = await supabase
+        .from('students')
+        .select('student_id')
+        .eq('student_id', trimmedId)
+        .maybeSingle();
+      if (existing) {
+        showError('That Student ID is already in use. Choose a different ID.');
+        return;
+      }
+    }
+    
     // Update the student
-    const { error } = await supabase
+  const { error } = await supabase
       .from('students')
       .update({ 
-        name: newName.trim(), 
-        email: newEmail.trim(), 
-        course: newCourse.trim() 
+    name: newName.trim(), 
+    email: newEmail.trim(), 
+    course: newCourse.trim(),
+    student_id: trimmedId
       })
       .eq('student_id', id);
     
     if (error) throw error;
     
-    showSuccess('Student updated successfully!');
+  showSuccess('Student updated successfully!');
     loadStudents();
     loadStudentsAddSection();
   } catch (error) {
